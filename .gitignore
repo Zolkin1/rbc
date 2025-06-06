@@ -1,0 +1,6 @@
+/cpp/cmake-build-debug/
+/cpp/cmake-build-release/
+/cpp/logs/
+
+/cpp/.idea
+/python/.idea
