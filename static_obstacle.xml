@@ -1,0 +1,43 @@
+<mujoco model="static_obstacle">
+  <option timestep="0.02" />
+  <size nuserdata="4"/>
+
+  <asset>
+    <texture name="blue_grid" type="2d" builtin="checker" rgb1=".02 .14 .44" rgb2=".27 .55 1" width="300" height="300" mark="edge" markrgb="1 1 1"/>
+    <material name="blue_grid" texture="blue_grid" texrepeat="1 1" texuniform="true" reflectance=".2"/>
+  </asset>
+
+  <default>
+    <default class="slider">
+      <position kp="10" ctrlrange="-10 10" forcerange="-1000 1000"/>
+    </default>
+  </default>
+
+  <worldbody>
+    <body>
+      <geom mass="0" name="floor" pos="0 0 -0.25" condim="3" size="10.0 10.0 0.10" rgba="0 1 1 1" type="box" material="blue_grid"/>
+    </body>
+
+    <geom name="obstacle1" type="cylinder" size="0.5 0.1" mass="1" rgba=".1 .5 .5 1" friction="0" pos="1 0.5 0" group="2"/>
+    <geom name="obstacle2" type="cylinder" size="0.35 0.1" mass="1" rgba=".1 .5 .5 1" friction="0" pos="0.3 1.75 0" group="2"/>
+
+    <body name="robot" pos="0 0 0">
+      <joint name="slider_x" damping="2" type="slide" axis="1 0 0" />
+      <joint name="slider_y" damping="2" type="slide" axis="0 1 0" />
+      <geom name="robot" type="cylinder" size="0.25 0.1" mass="1" rgba=".9 .5 .5 1" friction="0"/>
+      <site pos="0 0 0.15" name="robot_site"/>
+    </body>
+
+
+  </worldbody>
+
+  <actuator>
+    <position name="actuator_robot_x" joint="slider_x" class="slider" />
+    <position name="actuator_robot_y" joint="slider_y" class="slider" />
+  </actuator>
+
+  <sensor>
+    <framepos name="trace_robot" objtype="site" objname="robot_site"/>
+  </sensor>
+
+</mujoco>
