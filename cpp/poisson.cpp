@@ -105,8 +105,8 @@ void find_and_fix_boundary(float *grid, float *bound){
 void inflate_occupancy_grid(float *bound, const float yawk){
 
     /* Step 1: Create Robot Kernel */
-    const float length = 0.13f; // Crazyflie Drone
-    const float width = 0.13f;
+    const float length = 0.2; //0.35; //0.13f; // Crazyflie Drone
+    const float width = 0.2; //0.35; //0.13f;
     
     const float D = sqrtf(length*length + width*width); // Max Robot Dimension to Define Kernel Size
     const int dim = ceilf((ceilf(D / DS) + 1.0f) / 2.0f) * 2.0f - 1.0f;

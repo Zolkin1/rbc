@@ -5,8 +5,8 @@
 #ifndef POISSON_H
 #define POISSON_H
 
-#define IMAX 101 // Grid X Size
-#define JMAX 101 // Grid Y Size
+#define IMAX 121 // Grid X Size
+#define JMAX 121 // Grid Y Size
 #define DS 0.05f // X-Y Grid Resolution
 
 // TODO: Template

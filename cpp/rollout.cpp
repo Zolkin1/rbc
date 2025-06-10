@@ -3,6 +3,7 @@
 #include <fstream>
 #include <array>
 
+#include <yaml-cpp/yaml.h>
 #include <mujoco/mujoco.h>
 
 #include "poisson.h"
@@ -129,6 +130,12 @@ int main(int argc, char** argv) {
 
     const std::string function = std::string(argv[2]);
 
+    // Parameters
+    const std::array<double, 2> center_pos = {0, 0};
+    const std::array<double, 2> grid_size = {6, 6};
+    const double grid_resolution = 0.05;
+    int steps = 30;
+
     if (function == "rollout") {
         int ic_grid_x = 10;
         int ic_grid_y = 10;
@@ -138,7 +145,7 @@ int main(int argc, char** argv) {
 
         std::array<double, 2> target_pos = {0, 0};
         double kp = 1;
-        double kd = 0.1;
+        double kd = 0.5;
         std::vector<const mjModel*> models;
         std::vector<mjData*> data;
         for (int i = 0; i < ic_grid_x; i++) {
@@ -165,7 +172,6 @@ int main(int argc, char** argv) {
         std::vector<RolloutData> rollouts;
         rollouts.resize(num_rollouts);
         int nstates = model->nq + model->nv;
-        int steps = 10;
         for (int i = 0; i < num_rollouts; i++) {
             rollouts[i].states.resize(steps*nstates);
             rollouts[i].inputs.resize(steps*model->nu);
@@ -201,9 +207,6 @@ int main(int argc, char** argv) {
         mj_step(model, data);
 
         mjtByte geom_group[mjNGROUP] = {0, 0, 1, 0, 0, 0};
-        const std::array<double, 2> center_pos = {0, 0};
-        const std::array<double, 2> grid_size = {5, 5};
-        const double grid_resolution = 0.05;
         std::vector<float> grid = OccupancyGrid(model, data, geom_group, center_pos, grid_size, grid_resolution);
 
         // Log data to a csv
@@ -246,7 +249,7 @@ int main(int argc, char** argv) {
         for (size_t i = 0; i < hgrid.size(); ++i) {
             file_h << hgrid[i];
             if (i != hgrid.size() - 1) {
-                file_h << ",";  // Comma between values
+                file_h << "\n";  // new line between values
             }
         }
 
@@ -256,4 +259,17 @@ int main(int argc, char** argv) {
     } else {
         std::cerr << "Unknown function!\n";
     }
+
+    // Write everything to a yaml
+    YAML::Node config;
+    config["ocg_res"] = grid_resolution;
+    config["ocg_size_x"] = grid_size[0];
+    config["ocg_size_y"] = grid_size[1];
+    config["steps"] = steps;
+    config["dt"] = model->opt.timestep;
+
+    // Write to file
+    std::ofstream fout("/home/zolkin/AmberLab/Project-Rollout-Certifications/mj_rollout/cpp/logs/config.yaml");
+    fout << config;
+    return 0;
 }

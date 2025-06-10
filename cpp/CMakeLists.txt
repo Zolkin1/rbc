@@ -24,6 +24,15 @@ target_include_directories(mujoco-lib INTERFACE ${mujoco_SOURCE_DIR}/include/muj
 
 set_property(TARGET mujoco-lib PROPERTY IMPORTED_LOCATION ${mujoco_SOURCE_DIR}/lib/libmujoco.so)
 
+# ------- YAML ------- #
+include(FetchContent)
+FetchContent_Declare(
+        yaml-cpp
+        GIT_REPOSITORY https://github.com/jbeder/yaml-cpp.git
+        GIT_TAG        yaml-cpp-0.7.0  # Or latest
+)
+FetchContent_MakeAvailable(yaml-cpp)
+
 
 # Open MP
 find_package(OpenMP REQUIRED)
@@ -31,4 +40,4 @@ find_package(OpenMP REQUIRED)
 
 # Rollout exec
 add_executable(mj_rollout rollout.cpp poisson.cpp)
-target_link_libraries(mj_rollout mujoco-lib OpenMP::OpenMP_CXX)
+target_link_libraries(mj_rollout mujoco-lib OpenMP::OpenMP_CXX yaml-cpp)
