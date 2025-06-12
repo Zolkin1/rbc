@@ -62,6 +62,8 @@ void CtrlCallback(const mjModel* model, mjData* data) {
     double& kp = data->userdata[2];
     double& kd = data->userdata[3];
 
+    // TODO: I can fake making a harder to traverse area by adjusting the controller to be worse in that area.
+
     data->ctrl[0] = kp*(target_pos[0] - data->qpos[0]) + kd*(0 - data->qvel[0]);
     data->ctrl[1] = kp*(target_pos[1] - data->qpos[1]) + kd*(0 - data->qvel[1]);
 }
@@ -103,10 +105,10 @@ std::vector<float> OccupancyGrid(const mjModel* model, mjData* data, const mjtBy
                 direction.data(), geom_group, 1, -1, geom_id);
 
             if (dist != -1) {
-                occupancy_grid[j*grid_cells[0] + i] = 1;
+                occupancy_grid[j*grid_cells[0] + i] = 0;
                 // occupancy_grid[i*grid_cells[1] + j] = 1;
             } else {
-                occupancy_grid[j*grid_cells[1] + i] = 0;
+                occupancy_grid[j*grid_cells[1] + i] = 1;
             }
         }
     }

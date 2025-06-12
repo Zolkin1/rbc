@@ -2,3 +2,4 @@
 
 ### Python Deps
 `pyyaml`
+`judo-rai`

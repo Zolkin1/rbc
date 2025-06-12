@@ -23,11 +23,11 @@ def create_cbf(q, hsafe, ocg_cells, ocg_res, ocg_corner):
     # Iterate through the list
     for i in range(q.shape[0]):
         # Evaluate h at each point
-        hmax = -1000
+        hmin = 1000
         for j in range(q.shape[2]):
             hcand = get_h(hsafe, q[i, 0, j], q[i, 1, j], ocg_cells, ocg_res, ocg_corner)
-            if  hcand > hmax:
-                hmax = hcand
+            if  hcand < hmin:
+                hmin = hcand
 
-        h[i] = hmax
+        h[i] = hmin
     return h

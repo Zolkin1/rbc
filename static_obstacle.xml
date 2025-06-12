@@ -20,7 +20,8 @@
 
     <geom name="obstacle1" type="cylinder" size="0.5 0.1" mass="1" rgba=".1 .5 .5 1" friction="0" pos="1 0.5 0" group="2"/>
     <geom name="obstacle2" type="cylinder" size="0.35 0.1" mass="1" rgba=".1 .5 .5 1" friction="0" pos="0.3 1.75 0" group="2"/>
-
+    <geom name="obstacle3" type="box" size="0.8 0.1 0.2" mass="1" rgba=".1 .5 .5 1" friction="0" pos="0 -1 0" group="2"/>
+    
     <body name="robot" pos="0 0 0">
       <joint name="slider_x" damping="2" type="slide" axis="1 0 0" />
       <joint name="slider_y" damping="2" type="slide" axis="0 1 0" />

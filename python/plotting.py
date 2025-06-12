@@ -6,7 +6,7 @@ def plot_ocg(ax, data, ocg_res, ocg_cells, ocg_center, ocg_size):
     start_pos = np.array([ocg_center[0] - ocg_size[0]/2, ocg_center[1] - ocg_size[1]/2])
     for i in range(ocg_cells[0]):
         for j in range(ocg_cells[1]):
-            if data[j*ocg_cells[0] + i] == 1:
+            if data[j*ocg_cells[0] + i] == 0:
                 x = start_pos[0] + i * ocg_res
                 y = start_pos[1] + j * ocg_res
                 square = patches.Rectangle(
